@@ -8,3 +8,5 @@ resources:
 - deploy-nextjs-tekton-e2e.pipeline.yaml
 - quay-io-credentials.Secret.yaml
 - webhook-receiver.EventListener.yaml
+- save-configuration.Task.yaml
+- git-credentials.Secret.yaml

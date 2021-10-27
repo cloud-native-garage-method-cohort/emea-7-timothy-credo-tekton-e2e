@@ -25,10 +25,12 @@ spec:
         params:
           - name: app-name
             value: nextjs-tekton-e2e
-          - name: source-repo
-            value: https://github.com/cloud-native-garage-method-cohort/emea-7-timothy-credo-tekton-e2e
           - name: image-repo
             value: quay.io/timothy_credo/nextjs-tekton-e2e
+          - name: source-repo
+            value: $(tt.params.source-repo)
+          - name: sha
+            value: $(tt.params.sha)
         pipelineRef:
           name: deploy-nextjs-tekton-e2e
         workspaces:
@@ -40,11 +42,28 @@ spec:
                 resources:
                   requests:
                     storage: 1Gi
+          - name: gitops-repository
+            volumeClaimTemplate:
+              spec:
+                resources:
+                  requests:
+                    storage: 1Gi
+                accessModes:
+                - ReadWriteOnce
+          - name: git-credentials
+            secret:
+              secretName: git-credentials
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
   name: webhook-receiver
+spec:
+  params:
+    - name: source-repo
+      value: $(body.repository.url)
+    - name: sha
+      value: $(body.head_commit.id)
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
