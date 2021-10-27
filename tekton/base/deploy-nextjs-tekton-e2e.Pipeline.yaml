@@ -34,6 +34,8 @@ spec:
         - name: ARGS
           value:
             - install-ci-test
+        - name: IMAGE
+          value: cypress/base
       runAfter:
         - git-clone
       taskRef:
