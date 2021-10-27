@@ -12,6 +12,10 @@ spec:
     - name: image-repo
       type: string
       description: Docker image repository
+    - name: sha
+      type: string
+      default: ""
+      description: Precise SHA of the commit to build
   tasks:
     - name: git-clone
       params:
